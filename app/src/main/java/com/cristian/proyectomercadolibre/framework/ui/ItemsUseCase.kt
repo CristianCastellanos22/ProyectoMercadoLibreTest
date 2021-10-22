@@ -3,5 +3,5 @@ package com.cristian.proyectomercadolibre.framework.ui
 import com.cristian.proyectomercadolibre.models.Item
 
 interface ItemsUseCase {
-    suspend fun getItem(): List<Item>
+    suspend fun getItem(item: String): List<Item>
 }
