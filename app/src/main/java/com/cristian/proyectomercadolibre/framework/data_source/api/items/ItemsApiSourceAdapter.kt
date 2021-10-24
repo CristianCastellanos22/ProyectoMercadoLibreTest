@@ -1,4 +1,4 @@
-package com.cristian.proyectomercadolibre.framework.data_source.api
+package com.cristian.proyectomercadolibre.framework.data_source.api.items
 
 import com.cristian.proyectomercadolibre.data.items.ItemsApiSource
 import com.cristian.proyectomercadolibre.models.ResponseData
@@ -21,17 +21,4 @@ class ItemsApiSourceAdapter(private val itemsServices: ItemsServices): ItemsApiS
             throw ExceptionFactory.resolveError(e)
         }
     }
-    /*override suspend fun getItems(): List<Result> {
-        try {
-            println("Paso por acá")
-            val response = itemsServices.getItems()
-            if (response.isSuccessful) {
-                return response.body()!!
-            } else {
-                throw NetworkException(response.code(), "${response.code()}")
-            }
-        } catch (e: Exception) {
-            throw ExceptionFactory.resolveError(e)
-        }
-    }*/
 }
