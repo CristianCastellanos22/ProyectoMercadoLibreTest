@@ -1,4 +1,8 @@
 package com.cristian.proyectomercadolibre.data.categories
 
-class CategoriesRepositoryAdapter {
+import com.cristian.proyectomercadolibre.domain.categories.CategoriesRepository
+import com.cristian.proyectomercadolibre.models.Categories
+
+class CategoriesRepositoryAdapter(private val categoriesApiSource: CategoriesApiSource): CategoriesRepository {
+    override suspend fun getCategories(): List<Categories> = categoriesApiSource.getCategories()
 }
