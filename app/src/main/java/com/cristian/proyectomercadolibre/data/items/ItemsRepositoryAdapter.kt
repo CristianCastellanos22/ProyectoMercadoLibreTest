@@ -7,7 +7,4 @@ class ItemsRepositoryAdapter(private val itemsApiSource: ItemsApiSource): ItemsR
     override suspend fun getItems(item: String): ResponseData {
         return itemsApiSource.getItems(item)
     }
-    /*override suspend fun getItems(): List<Result> {
-        return itemsApiSource.getItems()
-    }*/
 }
