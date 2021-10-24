@@ -1,7 +1,8 @@
 package com.cristian.proyectomercadolibre.models
 
-data class Response(
-    var site_id: String,
-    var "country_default_time_zone": "GMT-05:00",
-"query": "xbox",
+data class ResponseData(
+    val site_id: String,
+    val country_default_time_zone: String,
+    val query: String,
+    val results: List<Result>
 )
