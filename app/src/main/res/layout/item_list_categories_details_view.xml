@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     android:elevation="10dp"
     app:cardCornerRadius="10dp"
-    android:id="@+id/cardItems">
+    android:id="@+id/cardItemsCategoriesDetails">
 
     <RelativeLayout
         android:layout_margin="10dp"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgView"
+            android:id="@+id/imgViewCategoriesDetails"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
@@ -24,24 +24,24 @@
 
         <TextView
             android:textAlignment="center"
-            android:id="@+id/txtNameProduct"
+            android:id="@+id/txtNameProductCategoriesDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgView"/>
+            android:layout_below="@+id/imgViewCategoriesDetails"/>
 
         <TextView
             android:textAlignment="center"
-            android:id="@+id/txtPrice"
-            android:layout_below="@+id/txtNameProduct"
+            android:id="@+id/txtPriceCategoriesDetails"
+            android:layout_below="@+id/txtNameProductCategoriesDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/txtSell"
+            android:id="@+id/txtSellCategoriesDetails"
             android:hint="@string/vendidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtPrice"
+            android:layout_below="@+id/txtPriceCategoriesDetails"
             android:layout_centerInParent="true"
             android:textAlignment="center" />
 
