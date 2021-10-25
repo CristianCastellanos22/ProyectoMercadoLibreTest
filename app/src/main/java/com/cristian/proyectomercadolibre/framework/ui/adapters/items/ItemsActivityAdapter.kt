@@ -1,4 +1,4 @@
-package com.cristian.proyectomercadolibre.framework.ui.adapters
+package com.cristian.proyectomercadolibre.framework.ui.adapters.items
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,9 +9,7 @@ import com.cristian.proyectomercadolibre.R
 import com.cristian.proyectomercadolibre.databinding.ItemListResultBinding
 import com.cristian.proyectomercadolibre.framework.ui.core.BaseViewHolder
 import com.cristian.proyectomercadolibre.models.Result
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.*
+import com.cristian.proyectomercadolibre.utils.FormatNumber
 
 class ItemsActivityAdapter(
     private val itemList: List<Result>,
@@ -40,18 +38,11 @@ class ItemsActivityAdapter(
                 .centerCrop().into(binding.imgView)
             binding.txtNameProduct.text = item.title
             binding.txtSell.text =  "vendidos: "+item.sold_quantity.toString()
-            binding.txtPrice.text = formatNumber(item.price.toDouble())
+            binding.txtPrice.text = FormatNumber.formatNumber(item.price.toDouble())
             binding.cardItems.setOnClickListener {
                 onClickListenerCardView.onClick(item)
             }
         }
 
-    }
-
-    fun formatNumber(number: Double): String {
-        val valor: Double = number
-        val region = Locale.getDefault()
-        val formatoMoneda = NumberFormat.getCurrencyInstance(region)
-        return (formatoMoneda.format(valor))
     }
 }
