@@ -1,8 +1,7 @@
-package com.cristian.proyectomercadolibre.framework.ui
+package com.cristian.proyectomercadolibre.framework.ui.items
 
 import androidx.lifecycle.*
 import com.cristian.proyectomercadolibre.models.ResponseData
-import com.cristian.proyectomercadolibre.models.Result
 import com.cristian.proyectomercadolibre.models.errors.NetworkException
 import kotlinx.coroutines.launch
 

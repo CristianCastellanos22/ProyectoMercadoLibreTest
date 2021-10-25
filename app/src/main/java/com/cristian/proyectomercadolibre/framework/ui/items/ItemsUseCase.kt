@@ -1,4 +1,4 @@
-package com.cristian.proyectomercadolibre.framework.ui
+package com.cristian.proyectomercadolibre.framework.ui.items
 
 import com.cristian.proyectomercadolibre.models.ResponseData
 import com.cristian.proyectomercadolibre.models.Result
