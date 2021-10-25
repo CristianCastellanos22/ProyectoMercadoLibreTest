@@ -1,4 +1,7 @@
 package com.cristian.proyectomercadolibre.framework.ui.adapters.categories
 
-interface onClickListenerCardView {
+import com.cristian.proyectomercadolibre.models.Categories
+
+interface OnClickListenerCategoriesCardView {
+    fun onClick(categories: Categories)
 }
