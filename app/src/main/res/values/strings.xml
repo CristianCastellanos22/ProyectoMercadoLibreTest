@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProyectoMercadoLibre</string>
+    <string name="hintSearch">Buscar...</string>
+    <string name="vendidos">vendidos</string>
+    <string name="categories">Categorías</string>
+    <string name="preguntar">Preguntar</string>
+    <string name="llamar">Llamar</string>
+    <string name="dataSeller">Dirección del vendedor</string>
 </resources>
