@@ -9,9 +9,7 @@ import java.lang.Exception
 class ItemsApiSourceAdapter(private val itemsServices: ItemsServices): ItemsApiSource {
     override suspend fun getItems(item: String): ResponseData {
         try {
-            println("Paso por acá")
             val response = itemsServices.getItems(item)
-            println("data es ${response.body()}")
             if (response.isSuccessful) {
                 return response.body()!!
             } else {

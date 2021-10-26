@@ -18,10 +18,7 @@ object ServicesModule {
             .addHeader("Authorization", "Bearer \$ACCESS_TOKEN")
             .build()
 
-        println("Request: ${request.headers()}")
-
         val response = chain.proceed(request)
-        print("url final $response")
         response
     }
 
