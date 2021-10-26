@@ -10,6 +10,14 @@
         android:id="@+id/toolbarCategories"
         layout="@layout/top_toolbar"/>
 
+    <include
+        android:id="@+id/messageViewCategories"
+        layout="@layout/message_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <TextView
         android:id="@+id/txtCat"
         android:layout_width="match_parent"
