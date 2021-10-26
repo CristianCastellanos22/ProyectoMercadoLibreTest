@@ -2,6 +2,7 @@ package com.cristian.proyectomercadolibre.framework.ui.items
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.cristian.proyectomercadolibre.R
 import com.cristian.proyectomercadolibre.databinding.ActivityMainBinding
 import com.cristian.proyectomercadolibre.framework.di.DaggerItemsComponents
 import com.cristian.proyectomercadolibre.framework.di.ItemsModule
@@ -42,13 +44,13 @@ class MainActivity : AppCompatActivity(), OnClickListenerCardView {
         itemsViewModel = ViewModelProvider(this, itemViewModelFactory).get()
         dialogCustom = CustomLoadingDialog(this)
         dialogCustom.showDialog()
-        //adapter = ItemsActivityAdapter(mutableListOf(), this)
+        adapter = ItemsActivityAdapter(mutableListOf(), this)
         observer()
+        searchTextButton()
 
         if (search != null) {
             searchData(search)
         }
-        searchTextButton()
     }
 
     private fun searchData(data: String) {
@@ -61,7 +63,11 @@ class MainActivity : AppCompatActivity(), OnClickListenerCardView {
         binding.toolbarMaint.edtSearch.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    searchData(binding.toolbarMaint.edtSearch.text.toString())
+                    if (binding.toolbarMaint.edtSearch.text?.isNotEmpty() == true) {
+                        dialogCustom.showDialog()
+                        startActivity(Intent(this, MainActivity::class.java).putExtra("KEY_CAT", binding.toolbarMaint.edtSearch.text.toString()))
+                        onBackPressed()
+                    }
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
                     true
@@ -75,13 +81,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerCardView {
         itemsViewModel.items.observe(this, {
             when {
                 it.results.isNotEmpty() -> {
-                    println("Tamaño data ${it.results.size}")
                     dialogCustom.cancelDialog()
                     adapter = ItemsActivityAdapter(it.results, this)
                     binding.rcRecycler.adapter = adapter
-                }
-                else -> {
-                    println("No data")
                 }
             }
         })
@@ -89,10 +91,12 @@ class MainActivity : AppCompatActivity(), OnClickListenerCardView {
         itemsViewModel.errors.observe(this, {
             when (it) {
                 is NetworkException -> {
-                    println("Error1 ${it.message}")
+                    binding.messageMain.root.visibility = View.VISIBLE
+                    binding.messageMain.txtMessage.text = getString(R.string.internetConnection)
                 }
                 else -> {
-                    println("Error2 ${it.message}")
+                    binding.messageMain.root.visibility = View.VISIBLE
+                    binding.messageMain.txtMessage.text = getString(R.string.genericError)
                 }
             }
         })
