@@ -2,6 +2,7 @@ package com.cristian.proyectomercadolibre.framework.ui.categoriesDetails
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.cristian.proyectomercadolibre.R
 import com.cristian.proyectomercadolibre.databinding.ActivityCategoriesDetailsBinding
 import com.cristian.proyectomercadolibre.framework.di.DaggerItemsComponents
 import com.cristian.proyectomercadolibre.framework.di.ItemsModule
@@ -54,6 +56,7 @@ class CategoriesDetailsActivity : AppCompatActivity(), OnClickListenerCategories
                         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
                         binding.toolbarCategoriesDetails.edtSearch.setText("")
+                        binding.messageCategoriesDetails.root.visibility = View.GONE
                         onBackPressed()
                         true
                     }
@@ -85,12 +88,17 @@ class CategoriesDetailsActivity : AppCompatActivity(), OnClickListenerCategories
         })
 
         categoriesDetailsViewModel.errors.observe(this, {
+            dialogCustom.cancelDialog()
             when (it) {
                 is NetworkException -> {
-                    println("Error1 ${it.message}")
+                    binding.messageCategoriesDetails.root.visibility = View.VISIBLE
+                    binding.messageCategoriesDetails.txtMessage.text = getString(R.string.internetConnection)
+                    textSearch()
                 }
                 else -> {
-                    println("Error2 ${it.message}")
+                    binding.messageCategoriesDetails.root.visibility = View.VISIBLE
+                    binding.messageCategoriesDetails.txtMessage.text = getString(R.string.genericError)
+                    textSearch()
                 }
             }
         })

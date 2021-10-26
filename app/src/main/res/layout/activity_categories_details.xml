@@ -10,6 +10,14 @@
         android:id="@+id/toolbarCategoriesDetails"
         layout="@layout/top_toolbar"/>
 
+    <include
+        android:id="@+id/messageCategoriesDetails"
+        layout="@layout/message_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcRecyclerCategoriesDetails"
         android:layout_width="match_parent"
