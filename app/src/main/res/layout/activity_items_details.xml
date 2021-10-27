@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".framework.ui.itemsDetails.ItemsDetailsActivity">
+
+    <include
+        android:id="@+id/toolbarItemsDetails"
+        layout="@layout/top_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarItemsDetails">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtNameDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="akt" />
+
+            <ImageView
+                android:id="@+id/imgProfileDetails"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="8dp"
+                android:layout_below="@+id/txtNameDetails"
+                android:layout_centerInParent="true"
+                tools:src="@drawable/ic_baseline_search_24" />
+
+            <TextView
+                android:id="@+id/txtPriceDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProfileDetails"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                tools:text="$4.900" />
+
+            <Button
+                android:id="@+id/btnQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preguntar"
+                android:textAllCaps="false"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_below="@+id/txtPriceDetails"
+                />
+
+            <Button
+                android:id="@+id/btnLlamar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/llamar"
+                android:textAllCaps="false"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="50dp"
+                android:layout_below="@+id/txtPriceDetails"/>
+
+            <TextView
+                android:id="@+id/dataSeller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="10dp"
+                android:text="@string/dataSeller"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:layout_below="@id/btnLlamar"/>
+
+            <TextView
+                android:id="@+id/addressSeller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:layout_below="@+id/dataSeller"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hintSearch">Buscar...</string>
+    <string name="categories">Categorías</string>
+    <string name="preguntar">Preguntar</string>
+    <string name="llamar">Llamar</string>
+    <string name="internetConnection">Verifica que tú dispositivo tenga una conexión a internet.</string>
+    <string name="genericError">Error al realizar la consulta.</string>
+</resources>
