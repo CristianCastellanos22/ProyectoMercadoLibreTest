@@ -45,17 +45,17 @@
     <li>
       <a href="#Acerca del projecto">Acerca del projecto</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#built-with">Construido con</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">Primeros pasos</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites">Pre-requisitos</a></li>
+        <li><a href="#installation">Instalación</a></li>
       </ul>
     </li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Contacto</a></li>
   </ol>
 </details>
 
@@ -77,9 +77,7 @@ La APP cuenta con tres pantallas.
 
 
 
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+### Construido con
 
 * [Retrofit](https://square.github.io/retrofit/)
 * [Dagger](https://developer.android.com/training/dependency-injection/dagger-android?hl=es-419)
@@ -87,15 +85,15 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Primeros pasos
 
 Para poder correr el proyecto se debe contar con el IDE Android Studio
 
-### Prerequisites
+### Pre-requisitos
 
 El proyecto cuenta con dependencias, las cuales se encuentran en el archivo build.gradle, la instalación de estas dependencias se realiza automaticamente por el IDE.
 
-### Installation
+### Instalación
 
 Pasos para la ejecución del proyecto.
 
@@ -108,7 +106,7 @@ Pasos para la ejecución del proyecto.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
-## Contact
+## Contacto
 
 Project Link: [https://github.com/CristianCastellanos22/ProyectoMercadoLibreTest.git](https://github.com/CristianCastellanos22/ProyectoMercadoLibreTest.git)
 
