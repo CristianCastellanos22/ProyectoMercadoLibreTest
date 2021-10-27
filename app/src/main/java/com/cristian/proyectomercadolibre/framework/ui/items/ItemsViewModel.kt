@@ -16,15 +16,12 @@ class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
         viewModelScope.launch {
             try {
                 _items.postValue(itemsUseCase.getItem(item))
-                println(_items)
             } catch (e: NetworkException) {
                 e.message
                 _errors.value = e
-                println("Error de Network ${e.message}")
             } catch (e: Exception) {
                 e.message
                 _errors.value = e
-                println("Erro generico: ${e.message}")
             }
         }
     }

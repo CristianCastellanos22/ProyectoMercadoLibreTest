@@ -53,7 +53,6 @@ class CategoriesActivity : AppCompatActivity(), OnClickListenerCategoriesCardVie
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     if (binding.toolbarCategories.edtSearch.text?.isNotEmpty() == true) {
-                        println("Se buscara: ${binding.toolbarCategories.edtSearch.text}")
                         if (data) {
                             startActivity(Intent(this, MainActivity::class.java).putExtra("KEY_CAT", binding.toolbarCategories.edtSearch.text.toString()))
                         }
@@ -101,7 +100,6 @@ class CategoriesActivity : AppCompatActivity(), OnClickListenerCategoriesCardVie
     }
 
     override fun onClick(categories: Categories) {
-        println("Objeto de categoria: ${categories.name}")
         startActivity(
             Intent(this, CategoriesDetailsActivity::class.java).putExtra("KEY_OBJ", categories)
         )

@@ -51,7 +51,6 @@ class CategoriesDetailsActivity : AppCompatActivity(), OnClickListenerCategories
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     if (binding.toolbarCategoriesDetails.edtSearch.text?.isNotEmpty() == true) {
-                        println("Se buscara: ${binding.toolbarCategoriesDetails.edtSearch.text}")
                         startActivity(Intent(this, MainActivity::class.java).putExtra("KEY_CAT", binding.toolbarCategoriesDetails.edtSearch.text.toString()))
                         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
