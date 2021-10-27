@@ -78,11 +78,11 @@ El proyecto cuenta con dependencias, las cuales se encuentran en el archivo buil
 
 Pasos para la ejecución del proyecto.
 
-1. Clone the repo
+1. Clonar el repositorio
    ```sh
    git clone https://github.com/CristianCastellanos22/ProyectoMercadoLibreTest.git
    ```
-2. Open on Android Studio IDE
+2. Abrir con el IDe Android Studio
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
