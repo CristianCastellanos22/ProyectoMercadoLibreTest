@@ -82,7 +82,7 @@ Pasos para la ejecución del proyecto.
    ```sh
    git clone https://github.com/CristianCastellanos22/ProyectoMercadoLibreTest.git
    ```
-2. Abrir con el IDe Android Studio
+2. Abrir con el IDE Android Studio
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
