@@ -1,8 +1,15 @@
 package com.cristian.proyectomercadolibre.framework.ui.items
 
-import androidx.lifecycle.*
-import com.cristian.proyectomercadolibre.models.ResponseData
-import com.cristian.proyectomercadolibre.models.errors.NetworkException
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
+import com.cristian.proyectomercadolibre.data.remote.ItemsApiSourceAdapter
+import com.cristian.proyectomercadolibre.data.repository.ItemsRepositoryAdapter
+import com.cristian.proyectomercadolibre.domain.items.ItemUseCaseAdapter
+import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
@@ -25,24 +32,18 @@ class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
             }
         }
     }
-    /*fun getItems() {
-        viewModelScope.launch {
-            try {
-                _items.postValue(itemsUseCase.getItem(*//**//*))
-            } catch (e: NetworkException) {
-                e.message
-                _errors.value = e
-            } catch (e: Exception) {
-                e.message
-                _errors.value = e
-            }
-        }
-    }*/
 }
 
-class ItemsViewModelFactory(private val itemsUseCase: ItemsUseCase): ViewModelProvider.Factory {
+class ItemsViewModelFactory: ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(ItemsUseCase::class.java).newInstance(itemsUseCase)
+        return ItemsViewModel(
+            ItemUseCaseAdapter(
+                ItemsRepositoryAdapter(
+                    ItemsApiSourceAdapter()
+                )
+            )
+        ) as T
     }
 
 }

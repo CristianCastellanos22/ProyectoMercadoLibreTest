@@ -1,11 +1,19 @@
 package com.cristian.proyectomercadolibre.framework.ui.categoriesDetails
 
-import androidx.lifecycle.*
-import com.cristian.proyectomercadolibre.models.ResponseData
-import com.cristian.proyectomercadolibre.models.errors.NetworkException
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.cristian.proyectomercadolibre.data.remote.CategoriesDetailsApiSourceAdapter
+import com.cristian.proyectomercadolibre.data.repository.CategoriesDetailsRepositoryAdapter
+import com.cristian.proyectomercadolibre.domain.categoriesDetails.CategoriesDetailsUseCaseAdapter
+import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
-class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: CategoriesDetailsUseCase): ViewModel() {
+class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: CategoriesDetailsUseCase) :
+    ViewModel() {
     private val _categories = MutableLiveData<ResponseData>()
     val categories: LiveData<ResponseData> = _categories
 
@@ -25,9 +33,16 @@ class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: Categorie
     }
 }
 
-class CategoriesDetailsViewModelFactory(private val categoriesDetailsUseCase: CategoriesDetailsUseCase): ViewModelProvider.Factory {
+class CategoriesDetailsViewModelFactory() :
+    ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(CategoriesDetailsUseCase::class.java).newInstance(categoriesDetailsUseCase)
+        return CategoriesDetailsViewModel(
+            CategoriesDetailsUseCaseAdapter(
+                CategoriesDetailsRepositoryAdapter(
+                    CategoriesDetailsApiSourceAdapter()
+                )
+            )
+        ) as T
     }
-
 }
