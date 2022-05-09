@@ -1,6 +1,7 @@
 package com.cristian.proyectomercadolibre.data.remote
 
 import com.cristian.proyectomercadolibre.data.di.ServiceFactory
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import com.cristian.proyectomercadolibre.data.remote.models.mapToDomain
 import com.cristian.proyectomercadolibre.data.service.ItemsServices
 import com.cristian.proyectomercadolibre.domain.models.ProductData
@@ -15,17 +16,21 @@ class ItemsApiSourceAdapter(private val dispatcher: CoroutineDispatcher = Dispat
         ServiceFactory.createRepositoryApi(ItemsServices::class.java)
     }
 
-    suspend fun getItems(item: String): ProductData {
+    suspend fun getItems(item: String): HandlerResponse<ProductData> {
         runCatching {
             withContext(dispatcher) {
                 itemsServices.getItems(item)
             }
         }.fold(
             onSuccess = { it ->
-                return it.body()?.mapToDomain() ?: ProductData(emptyList())
+                return HandlerResponse.Success(
+                    it.body()?.mapToDomain() ?: ProductData(emptyList())
+                )
             },
             onFailure = {
-                throw NetworkException("${it.message}")
+                return HandlerResponse.Failure(
+                    it as Exception
+                )
             }
         )
     }

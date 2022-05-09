@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.ViewModelProvider
 import com.cristian.proyectomercadolibre.data.remote.ItemsApiSourceAdapter
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import com.cristian.proyectomercadolibre.data.repository.ItemsRepositoryAdapter
 import com.cristian.proyectomercadolibre.domain.items.ItemUseCaseAdapter
 import com.cristian.proyectomercadolibre.domain.models.ProductData
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
@@ -21,14 +21,15 @@ class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
 
     fun getItems(item: String) {
         viewModelScope.launch {
-            try {
-                _items.postValue(itemsUseCase.getItem(item))
-            } catch (e: NetworkException) {
-                e.message
-                _errors.value = e
-            } catch (e: Exception) {
-                e.message
-                _errors.value = e
+            when (val response = itemsUseCase.getItem(item)) {
+                is HandlerResponse.Success -> {
+                    response.value.let {
+                        _items.postValue(it)
+                    }
+                }
+                is HandlerResponse.Failure -> {
+                    _errors.value = response.exception
+                }
             }
         }
     }
@@ -45,5 +46,4 @@ class ItemsViewModelFactory: ViewModelProvider.Factory {
             )
         ) as T
     }
-
 }

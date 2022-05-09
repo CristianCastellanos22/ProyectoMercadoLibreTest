@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cristian.proyectomercadolibre.data.remote.CategoriesDetailsApiSourceAdapter
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import com.cristian.proyectomercadolibre.data.repository.CategoriesDetailsRepositoryAdapter
 import com.cristian.proyectomercadolibre.domain.categoriesDetails.CategoriesDetailsUseCaseAdapter
 import com.cristian.proyectomercadolibre.domain.models.ProductData
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
 class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: CategoriesDetailsUseCase) :
@@ -22,12 +22,15 @@ class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: Categorie
 
     fun getCategoriesDetails(details: String) {
         viewModelScope.launch {
-            try {
-                _categories.postValue(categoriesDetailsUseCase.getCategoriesDetails(details))
-            } catch (e: NetworkException) {
-                _errors.value = e
-            } catch (e: Exception) {
-                _errors.value = e
+            when (val response = categoriesDetailsUseCase.getCategoriesDetails(details)) {
+                is HandlerResponse.Success -> {
+                    response.value.let {
+                        _categories.postValue(it)
+                    }
+                }
+                is HandlerResponse.Failure -> {
+                    _errors.value = response.exception
+                }
             }
         }
     }
