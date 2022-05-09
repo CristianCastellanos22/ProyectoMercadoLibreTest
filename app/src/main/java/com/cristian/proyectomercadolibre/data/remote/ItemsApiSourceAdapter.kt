@@ -3,7 +3,7 @@ package com.cristian.proyectomercadolibre.data.remote
 import com.cristian.proyectomercadolibre.data.di.ServiceFactory
 import com.cristian.proyectomercadolibre.data.remote.models.mapToDomain
 import com.cristian.proyectomercadolibre.data.service.ItemsServices
-import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.ProductData
 import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -15,14 +15,14 @@ class ItemsApiSourceAdapter(private val dispatcher: CoroutineDispatcher = Dispat
         ServiceFactory.createRepositoryApi(ItemsServices::class.java)
     }
 
-    suspend fun getItems(item: String): ResponseData {
+    suspend fun getItems(item: String): ProductData {
         runCatching {
             withContext(dispatcher) {
                 itemsServices.getItems(item)
             }
         }.fold(
             onSuccess = { it ->
-                return it.body()?.mapToDomain() ?: ResponseData(emptyList())
+                return it.body()?.mapToDomain() ?: ProductData(emptyList())
             },
             onFailure = {
                 throw NetworkException("${it.message}")

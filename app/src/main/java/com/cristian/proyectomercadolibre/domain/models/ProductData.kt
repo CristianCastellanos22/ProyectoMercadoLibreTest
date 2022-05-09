@@ -4,6 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ResponseData(
+data class ProductData(
     val products: List<Product>
 ): Parcelable

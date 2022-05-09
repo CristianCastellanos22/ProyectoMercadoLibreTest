@@ -1,6 +1,6 @@
 package com.cristian.proyectomercadolibre.domain.models
 
-import com.cristian.proyectomercadolibre.data.builder.ResultResponseBuilder
+import com.cristian.proyectomercadolibre.data.builder.ProductResponseBuilder
 import com.cristian.proyectomercadolibre.data.builder.SellerAddressResponseBuilder
 import org.junit.Assert
 import org.junit.Test
@@ -9,7 +9,7 @@ class ProductTest {
     @Test
     fun `when data is not null`() {
         // given
-        val result = ResultResponseBuilder().mapToDomain()
+        val result = ProductResponseBuilder().mapToDomain()
 
         // Then
         Assert.assertNotNull(result)
@@ -24,7 +24,7 @@ class ProductTest {
         val price = 123
         val soldQuantity = 15
         val sellerAddress = SellerAddressResponseBuilder().mapToDomain()
-        val result = ResultResponseBuilder().mapToDomain()
+        val result = ProductResponseBuilder().mapToDomain()
 
         // Then
         Assert.assertEquals(id, result.id)

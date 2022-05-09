@@ -1,15 +1,15 @@
 package com.cristian.proyectomercadolibre.data.remote.models
 
-import com.cristian.proyectomercadolibre.data.builder.ResultResponseBuilder
+import com.cristian.proyectomercadolibre.data.builder.ProductResponseBuilder
 import com.cristian.proyectomercadolibre.data.builder.SellerAddressResponseBuilder
 import org.junit.Assert
 import org.junit.Test
 
-class ResultResponseTest {
+class ProductResponseTest {
     @Test
     fun `when data is not null`() {
         // given
-        val result = ResultResponseBuilder().mapToRemote()
+        val result = ProductResponseBuilder().mapToRemote()
 
         // Then
         Assert.assertNotNull(result)
@@ -24,7 +24,7 @@ class ResultResponseTest {
         val price = 123
         val soldQuantity = 15
         val sellerAddress = SellerAddressResponseBuilder().mapToRemote()
-        val result = ResultResponseBuilder().mapToRemote()
+        val result = ProductResponseBuilder().mapToRemote()
 
         // Then
         Assert.assertEquals(id, result.id)

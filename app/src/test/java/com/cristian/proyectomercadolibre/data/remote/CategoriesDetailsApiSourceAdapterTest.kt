@@ -3,7 +3,7 @@ package com.cristian.proyectomercadolibre.data.remote
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cristian.proyectomercadolibre.data.di.ServiceFactory
-import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.ProductData
 import com.cristian.proyectomercadolibre.utils.Utils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -67,7 +67,7 @@ class CategoriesDetailsApiSourceAdapterTest {
         val response = categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
 
         // then
-        assertEquals(ResponseData(listOf()), response)
+        assertEquals(ProductData(listOf()), response)
     }
 
     @After

@@ -1,10 +1,7 @@
 package com.cristian.proyectomercadolibre.data.remote.models
 
-import com.cristian.proyectomercadolibre.data.builder.ResultResponseBuilder
-import com.cristian.proyectomercadolibre.data.builder.SellerAddressResponseBuilder
 import com.cristian.proyectomercadolibre.data.builder.StateResponseBuilder
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Test
 
 class StateResponseTest {

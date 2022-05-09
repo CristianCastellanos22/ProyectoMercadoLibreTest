@@ -3,7 +3,7 @@ package com.cristian.proyectomercadolibre.data.remote.models
 import com.cristian.proyectomercadolibre.domain.models.Product
 import com.google.gson.annotations.SerializedName
 
-data class ResultResponse(
+data class ProductResponse(
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
     @SerializedName("thumbnail") val thumbnail: String,
@@ -12,7 +12,7 @@ data class ResultResponse(
     @SerializedName("seller_address") val sellerAddress: SellerAddressResponse,
 )
 
-fun ResultResponse.mapToDomain(): Product {
+fun ProductResponse.mapToDomain(): Product {
     return with(this) {
         Product(
             id = id,

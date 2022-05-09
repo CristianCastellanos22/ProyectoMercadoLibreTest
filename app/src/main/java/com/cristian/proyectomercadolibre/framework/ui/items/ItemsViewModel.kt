@@ -8,13 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.cristian.proyectomercadolibre.data.remote.ItemsApiSourceAdapter
 import com.cristian.proyectomercadolibre.data.repository.ItemsRepositoryAdapter
 import com.cristian.proyectomercadolibre.domain.items.ItemUseCaseAdapter
-import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.ProductData
 import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(private val itemsUseCase: ItemsUseCase): ViewModel() {
-    private val _items = MutableLiveData<ResponseData>()
-    val items: LiveData<ResponseData> = _items
+    private val _items = MutableLiveData<ProductData>()
+    val items: LiveData<ProductData> = _items
 
     private val _errors = MutableLiveData<Exception>()
     val errors: LiveData<Exception> = _errors

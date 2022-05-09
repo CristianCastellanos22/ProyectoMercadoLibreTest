@@ -8,14 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.cristian.proyectomercadolibre.data.remote.CategoriesDetailsApiSourceAdapter
 import com.cristian.proyectomercadolibre.data.repository.CategoriesDetailsRepositoryAdapter
 import com.cristian.proyectomercadolibre.domain.categoriesDetails.CategoriesDetailsUseCaseAdapter
-import com.cristian.proyectomercadolibre.domain.models.ResponseData
+import com.cristian.proyectomercadolibre.domain.models.ProductData
 import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.launch
 
 class CategoriesDetailsViewModel(private val categoriesDetailsUseCase: CategoriesDetailsUseCase) :
     ViewModel() {
-    private val _categories = MutableLiveData<ResponseData>()
-    val categories: LiveData<ResponseData> = _categories
+    private val _categories = MutableLiveData<ProductData>()
+    val categories: LiveData<ProductData> = _categories
 
     private val _errors = MutableLiveData<Exception>()
     val errors: LiveData<Exception> = _errors
