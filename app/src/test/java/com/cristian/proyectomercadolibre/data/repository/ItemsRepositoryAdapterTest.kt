@@ -1,7 +1,7 @@
 package com.cristian.proyectomercadolibre.data.repository
 
 import com.cristian.proyectomercadolibre.data.builder.ProductDataResponseBuilder
-import com.cristian.proyectomercadolibre.data.remote.CategoriesDetailsApiSourceAdapter
+import com.cristian.proyectomercadolibre.data.remote.ItemsApiSourceAdapter
 import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -12,16 +12,15 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class CategoriesDetailsRepositoryAdapterTest {
+class ItemsRepositoryAdapterTest {
     @MockK
-    private lateinit var categoriesDetailsApiSourceAdapter: CategoriesDetailsApiSourceAdapter
+    private lateinit var itemsApiSourceAdapter: ItemsApiSourceAdapter
 
-    private lateinit var categoriesDetailsRepositoryAdapter: CategoriesDetailsRepositoryAdapter
+    private lateinit var itemsRepositoryAdapter: ItemsRepositoryAdapter
 
     private val testDispatcher = TestCoroutineDispatcher()
 
@@ -29,18 +28,18 @@ class CategoriesDetailsRepositoryAdapterTest {
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        categoriesDetailsRepositoryAdapter = CategoriesDetailsRepositoryAdapter(categoriesDetailsApiSourceAdapter)
+        itemsRepositoryAdapter = ItemsRepositoryAdapter(itemsApiSourceAdapter)
     }
 
     @Test
     fun `when call getCategories get successful response 200`() = runBlockingTest {
         // given
         coEvery {
-            categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
+            itemsApiSourceAdapter.getItems("")
         } returns HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain())
 
         // when
-        val response = categoriesDetailsRepositoryAdapter.getCategoriesDetails("")
+        val response = itemsApiSourceAdapter.getItems("")
 
         // then
         Assert.assertEquals(HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain()), response)
@@ -50,14 +49,13 @@ class CategoriesDetailsRepositoryAdapterTest {
     fun `when response is error with Exception`() = runBlockingTest {
         // given
         coEvery {
-            categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
+            itemsApiSourceAdapter.getItems("")
         } returns HandlerResponse.Failure(Exception("Error"))
 
         // when
-        val response = categoriesDetailsRepositoryAdapter.getCategoriesDetails("")
+        val response = itemsApiSourceAdapter.getItems("")
 
         // then
-        assertEquals("Error", (response as HandlerResponse.Failure).exception.message)
+        Assert.assertEquals("Error", (response as HandlerResponse.Failure).exception.message)
     }
-
 }
