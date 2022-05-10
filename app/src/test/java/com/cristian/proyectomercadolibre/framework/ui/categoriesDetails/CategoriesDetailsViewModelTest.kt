@@ -1,7 +1,8 @@
-package com.cristian.proyectomercadolibre.data.repository
+package com.cristian.proyectomercadolibre.framework.ui.categoriesDetails
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.cristian.proyectomercadolibre.commons.getOrAwaitValue
 import com.cristian.proyectomercadolibre.data.builder.ProductDataResponseBuilder
-import com.cristian.proyectomercadolibre.data.remote.CategoriesDetailsApiSourceAdapter
 import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -11,52 +12,56 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class CategoriesDetailsRepositoryAdapterTest {
-    @MockK
-    private lateinit var categoriesDetailsApiSourceAdapter: CategoriesDetailsApiSourceAdapter
-
-    private lateinit var categoriesDetailsRepositoryAdapter: CategoriesDetailsRepositoryAdapter
-
+class CategoriesDetailsViewModelTest {
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
     private val testDispatcher = TestCoroutineDispatcher()
+    @MockK
+    private lateinit var categoriesDetailsUseCase: CategoriesDetailsUseCase
+    private lateinit var categoriesDetailsViewModel: CategoriesDetailsViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        categoriesDetailsRepositoryAdapter = CategoriesDetailsRepositoryAdapter(categoriesDetailsApiSourceAdapter)
+        categoriesDetailsViewModel = CategoriesDetailsViewModel(categoriesDetailsUseCase)
     }
 
     @Test
     fun `when call getCategories get successful response 200`() = runBlockingTest {
         // given
         coEvery {
-            categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
+            categoriesDetailsUseCase.getCategoriesDetails("")
         } returns HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain())
 
         // when
-        val response = categoriesDetailsRepositoryAdapter.getCategoriesDetails("")
+        categoriesDetailsViewModel.getCategoriesDetails("")
 
         // then
-        assertEquals(HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain()), response)
+        assertNull(categoriesDetailsViewModel.errors.value)
+        assertFalse(categoriesDetailsViewModel.categories.getOrAwaitValue().products.isEmpty())
     }
 
     @Test
     fun `when response is error with Exception`() = runBlockingTest {
         // given
         coEvery {
-            categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
+            categoriesDetailsUseCase.getCategoriesDetails("")
         } returns HandlerResponse.Failure(Exception("Error"))
 
         // when
-        val response = categoriesDetailsRepositoryAdapter.getCategoriesDetails("")
+        categoriesDetailsViewModel.getCategoriesDetails("")
 
         // then
-        assertEquals("Error", (response as HandlerResponse.Failure).exception.message)
+        assertNull(categoriesDetailsViewModel.categories.value)
+        assertEquals("Error", categoriesDetailsViewModel.errors.getOrAwaitValue().message)
     }
-
 }
