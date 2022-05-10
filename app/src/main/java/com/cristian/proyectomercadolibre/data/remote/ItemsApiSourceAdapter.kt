@@ -5,7 +5,6 @@ import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import com.cristian.proyectomercadolibre.data.remote.models.mapToDomain
 import com.cristian.proyectomercadolibre.data.service.ItemsServices
 import com.cristian.proyectomercadolibre.domain.models.ProductData
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -19,10 +19,10 @@ import com.cristian.proyectomercadolibre.framework.ui.adapters.categoriesDetails
 import com.cristian.proyectomercadolibre.framework.ui.core.CustomLoadingDialog
 import com.cristian.proyectomercadolibre.framework.ui.items.MainActivity
 import com.cristian.proyectomercadolibre.framework.ui.itemsDetails.ItemsDetailsActivity
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import com.cristian.proyectomercadolibre.utils.KEY_CAT
 import com.cristian.proyectomercadolibre.utils.KEY_OBJ
 import com.cristian.proyectomercadolibre.utils.KEY_RESULT
+import java.net.UnknownHostException
 
 class CategoriesDetailsActivity : AppCompatActivity(), OnClickListenerCategoriesDetailsCardView {
     private val categoriesDetailsViewModel: CategoriesDetailsViewModel by viewModels(
@@ -102,7 +102,7 @@ class CategoriesDetailsActivity : AppCompatActivity(), OnClickListenerCategories
             categoriesDetailsViewModel.errors.observe(this@CategoriesDetailsActivity) {
                 dialogCustom.cancelDialog()
                 when (it) {
-                    is NetworkException -> {
+                    is UnknownHostException -> {
                         messageCategoriesDetails.root.visibility = View.VISIBLE
                         messageCategoriesDetails.txtMessage.text =
                             getString(R.string.internetConnection)

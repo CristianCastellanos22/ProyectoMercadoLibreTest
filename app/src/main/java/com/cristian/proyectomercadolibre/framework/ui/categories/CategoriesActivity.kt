@@ -17,9 +17,9 @@ import com.cristian.proyectomercadolibre.framework.ui.adapters.categories.Catego
 import com.cristian.proyectomercadolibre.framework.ui.adapters.categories.OnClickListenerCategoriesCardView
 import com.cristian.proyectomercadolibre.framework.ui.categoriesDetails.CategoriesDetailsActivity
 import com.cristian.proyectomercadolibre.framework.ui.items.MainActivity
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import com.cristian.proyectomercadolibre.utils.KEY_CAT
 import com.cristian.proyectomercadolibre.utils.KEY_OBJ
+import java.net.UnknownHostException
 
 class CategoriesActivity : AppCompatActivity(), OnClickListenerCategoriesCardView {
     private val categoriesViewModel: CategoriesViewModel by viewModels(
@@ -88,7 +88,7 @@ class CategoriesActivity : AppCompatActivity(), OnClickListenerCategoriesCardVie
             categoriesViewModel.errors.observe(this@CategoriesActivity) {
                 txtCat.visibility = View.GONE
                 when (it) {
-                    is NetworkException -> {
+                    is UnknownHostException -> {
                         data = false
                         messageViewCategories.root.visibility = View.VISIBLE
                         messageViewCategories.txtMessage.text =

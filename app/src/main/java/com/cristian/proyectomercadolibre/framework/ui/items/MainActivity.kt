@@ -17,9 +17,9 @@ import com.cristian.proyectomercadolibre.framework.ui.adapters.items.ItemsActivi
 import com.cristian.proyectomercadolibre.framework.ui.adapters.items.OnClickListenerCardView
 import com.cristian.proyectomercadolibre.framework.ui.core.CustomLoadingDialog
 import com.cristian.proyectomercadolibre.framework.ui.itemsDetails.ItemsDetailsActivity
-import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import com.cristian.proyectomercadolibre.utils.KEY_CAT
 import com.cristian.proyectomercadolibre.utils.KEY_RESULT
+import java.net.UnknownHostException
 
 
 class MainActivity : AppCompatActivity(), OnClickListenerCardView {
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerCardView {
 
             itemsViewModel.errors.observe(this@MainActivity) {
                 when (it) {
-                    is NetworkException -> {
+                    is UnknownHostException -> {
                         messageMain.root.visibility = View.VISIBLE
                         messageMain.txtMessage.text = getString(R.string.internetConnection)
                     }
