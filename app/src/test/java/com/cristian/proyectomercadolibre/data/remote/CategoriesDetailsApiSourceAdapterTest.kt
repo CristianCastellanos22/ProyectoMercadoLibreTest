@@ -3,12 +3,14 @@ package com.cristian.proyectomercadolibre.data.remote
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cristian.proyectomercadolibre.data.di.ServiceFactory
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
 import com.cristian.proyectomercadolibre.domain.models.ProductData
 import com.cristian.proyectomercadolibre.utils.Utils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.SocketPolicy
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -60,14 +62,16 @@ class CategoriesDetailsApiSourceAdapterTest {
     fun `when call getCategories get error response`() = runBlocking {
         // given
         mockServer.enqueue(
-            MockResponse().setResponseCode(HttpURLConnection.HTTP_GATEWAY_TIMEOUT)
+            MockResponse().setResponseCode(HttpURLConnection.HTTP_GATEWAY_TIMEOUT).setSocketPolicy(
+                SocketPolicy.DISCONNECT_AT_START)
         )
 
         // when
         val response = categoriesDetailsApiSourceAdapter.getCategoriesDetails("")
+        val responseFailure = response as HandlerResponse.Failure
 
         // then
-        assertEquals(ProductData(listOf()), response)
+        assertNotNull(responseFailure.exception)
     }
 
     @After
