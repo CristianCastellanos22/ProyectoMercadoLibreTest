@@ -61,7 +61,11 @@ La APP cuenta con tres pantallas.
 ### Construido con
 
 * [Retrofit](https://square.github.io/retrofit/)
-* [Dagger](https://developer.android.com/training/dependency-injection/dagger-android?hl=es-419)
+* [Kotlin](https://kotlinlang.org/)
+
+### Arquitectura usada
+* [MVVM]
+* [Clean architecture]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
