@@ -1,61 +1,60 @@
 package com.cristian.proyectomercadolibre.domain.items
 
-import com.cristian.proyectomercadolibre.models.*
-import junit.framework.TestCase
-import kotlinx.coroutines.runBlocking
+import com.cristian.proyectomercadolibre.data.builder.ProductDataResponseBuilder
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-class ItemUseCaseAdapterTest : TestCase() {
-
-    @Mock
+@ExperimentalCoroutinesApi
+class ItemUseCaseAdapterTest {
+    @MockK
     private lateinit var itemsRepository: ItemsRepository
 
-    @InjectMocks
-    private lateinit var itemUseCaseAdapter: ItemUseCaseAdapter
+    private lateinit var itemsUseCaseAdapter: ItemUseCaseAdapter
 
-    private fun createResults(): List<Result> = mutableListOf(
-        Result(
-            "1",
-            "result1",
-            "1234.jpg",
-            1,
-            2,
-            SellerAddress(
-                "address1",
-                "comment1",
-                "line1",
-                "zip123",
-                Country("1","country1"),
-                State("1", "state1"),
-                City("1", "city1"),
-                "123",
-                "123"
-            )
-        )
-    )
+    private val testDispatcher = TestCoroutineDispatcher()
 
-    private fun createItem(): ResponseData = ResponseData(
-        "1",
-        "zon1",
-        "data",
-        createResults()
-    )
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(testDispatcher)
+        itemsUseCaseAdapter = ItemUseCaseAdapter(itemsRepository)
+    }
 
     @Test
-    fun `testGetItem`() {
-        runBlocking {
-            val expect = createItem()
-            val item = "1234"
-            val returnResponse = createItem()
-            Mockito.`when`(itemsRepository.getItems(item)).thenReturn(returnResponse)
-            val result = itemUseCaseAdapter.getItem(item)
-            assertEquals(expect, result)
-        }
+    fun `when call getCategories get successful response 200`() = runBlockingTest {
+        // given
+        coEvery {
+            itemsRepository.getItems("")
+        } returns HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain())
+
+        // when
+        val response = itemsRepository.getItems("")
+
+        // then
+        assertEquals(HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain()), response)
+    }
+
+    @Test
+    fun `when response is error with Exception`() = runBlockingTest {
+        // given
+        coEvery {
+            itemsRepository.getItems("")
+        } returns HandlerResponse.Failure(Exception("Error"))
+
+        // when
+        val response = itemsRepository.getItems("")
+
+        // then
+        assertEquals("Error", (response as HandlerResponse.Failure).exception.message)
     }
 }

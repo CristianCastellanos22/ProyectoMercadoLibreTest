@@ -1,6 +1,6 @@
 package com.cristian.proyectomercadolibre.utils
 
-import com.cristian.proyectomercadolibre.models.errors.NetworkException
+import com.cristian.proyectomercadolibre.domain.models.errors.NetworkException
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException

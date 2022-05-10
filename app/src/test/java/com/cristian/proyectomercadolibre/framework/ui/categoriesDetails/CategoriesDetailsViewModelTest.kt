@@ -1,78 +1,67 @@
 package com.cristian.proyectomercadolibre.framework.ui.categoriesDetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.cristian.proyectomercadolibre.MainCoroutineRule
-import com.cristian.proyectomercadolibre.models.*
-import junit.framework.TestCase
+import com.cristian.proyectomercadolibre.commons.getOrAwaitValue
+import com.cristian.proyectomercadolibre.data.builder.ProductDataResponseBuilder
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
-import java.util.*
 
-@RunWith(MockitoJUnitRunner.Silent::class)
-class CategoriesDetailsViewModelTest : TestCase() {
-
+@ExperimentalCoroutinesApi
+class CategoriesDetailsViewModelTest {
     @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
-
-    @Mock
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    private val testDispatcher = TestCoroutineDispatcher()
+    @MockK
     private lateinit var categoriesDetailsUseCase: CategoriesDetailsUseCase
-
-    @Mock
-    private lateinit var observer: Observer<ResponseData>
-
     private lateinit var categoriesDetailsViewModel: CategoriesDetailsViewModel
 
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
-
-    private fun createResults(): List<Result> = mutableListOf(
-        Result(
-            "1",
-            "result1",
-            "1234.jpg",
-            1,
-            2,
-            SellerAddress(
-                "address1",
-                "comment1",
-                "line1",
-                "zip123",
-                Country("1","country1"),
-                State("1", "state1"),
-                City("1", "city1"),
-                "123",
-                "123"
-            )
-        )
-    )
-
-    private fun createCategoriesDetails(): ResponseData = ResponseData(
-        "1",
-        "zon1",
-        "data",
-        createResults()
-    )
-
     @Before
-    fun setUpData() {
+    fun setUp() {
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(testDispatcher)
         categoriesDetailsViewModel = CategoriesDetailsViewModel(categoriesDetailsUseCase)
     }
 
     @Test
-    fun `testGetCategories`() = mainCoroutineRule.dispatcher.runBlockingTest {
-        val details = "123"
-        categoriesDetailsViewModel.categories.observeForever(observer)
-        Mockito.`when`(categoriesDetailsUseCase.getCategoriesDetails(details)).thenReturn(createCategoriesDetails())
-        categoriesDetailsViewModel.getCategoriesDetails(details)
-        Mockito.verify(observer).onChanged(createCategoriesDetails())
+    fun `when call getCategories get successful response 200`() = runBlockingTest {
+        // given
+        coEvery {
+            categoriesDetailsUseCase.getCategoriesDetails("")
+        } returns HandlerResponse.Success(ProductDataResponseBuilder().mapToDomain())
+
+        // when
+        categoriesDetailsViewModel.getCategoriesDetails("")
+
+        // then
+        assertNull(categoriesDetailsViewModel.errors.value)
+        assertFalse(categoriesDetailsViewModel.categories.getOrAwaitValue().products.isEmpty())
+    }
+
+    @Test
+    fun `when response is error with Exception`() = runBlockingTest {
+        // given
+        coEvery {
+            categoriesDetailsUseCase.getCategoriesDetails("")
+        } returns HandlerResponse.Failure(Exception("Error"))
+
+        // when
+        categoriesDetailsViewModel.getCategoriesDetails("")
+
+        // then
+        assertNull(categoriesDetailsViewModel.categories.value)
+        assertEquals("Error", categoriesDetailsViewModel.errors.getOrAwaitValue().message)
     }
 }

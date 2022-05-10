@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cristian.proyectomercadolibre.databinding.CategoriesListViewBinding
+import com.cristian.proyectomercadolibre.domain.models.Categories
 import com.cristian.proyectomercadolibre.framework.ui.core.BaseViewHolder
-import com.cristian.proyectomercadolibre.models.Categories
 
 class CategoriesActivityAdapter(
     private val categoriesList: List<Categories>,

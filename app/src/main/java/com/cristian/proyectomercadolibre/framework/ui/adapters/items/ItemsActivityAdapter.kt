@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cristian.proyectomercadolibre.R
 import com.cristian.proyectomercadolibre.databinding.ItemListResultBinding
+import com.cristian.proyectomercadolibre.domain.models.Product
 import com.cristian.proyectomercadolibre.framework.ui.core.BaseViewHolder
-import com.cristian.proyectomercadolibre.models.Result
 import com.cristian.proyectomercadolibre.utils.FormatNumber
 
 class ItemsActivityAdapter(
-    private val itemList: List<Result>,
+    private val itemList: List<Product>,
     private val onClickListenerCardView: OnClickListenerCardView,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
@@ -32,12 +32,12 @@ class ItemsActivityAdapter(
     private inner class ResultActivityViewHolder(
         val binding: ItemListResultBinding,
         val context: Context
-    ) : BaseViewHolder<Result>(binding.root) {
-        override fun bind(item: Result) {
+    ) : BaseViewHolder<Product>(binding.root) {
+        override fun bind(item: Product) {
             Glide.with(context).load(item.thumbnail).timeout(3000).error(R.drawable.ic_baseline_cloud_off_24)
                 .centerCrop().into(binding.imgView)
             binding.txtNameProduct.text = item.title
-            binding.txtSell.text =  "vendidos: "+item.sold_quantity.toString()
+            binding.txtSell.text =  "vendidos: "+item.soldQuantity.toString()
             binding.txtPrice.text = FormatNumber.formatNumber(item.price.toDouble())
             binding.cardItems.setOnClickListener {
                 onClickListenerCardView.onClick(item)

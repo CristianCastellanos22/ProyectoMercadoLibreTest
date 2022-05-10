@@ -1,7 +1,7 @@
 package com.cristian.proyectomercadolibre.utils
 
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 
 object FormatNumber {
     fun formatNumber(number: Double): String {

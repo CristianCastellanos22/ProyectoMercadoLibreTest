@@ -1,59 +1,65 @@
 package com.cristian.proyectomercadolibre.framework.ui.categories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.cristian.proyectomercadolibre.MainCoroutineRule
-import com.cristian.proyectomercadolibre.models.Categories
-import junit.framework.TestCase
+import com.cristian.proyectomercadolibre.commons.getOrAwaitValue
+import com.cristian.proyectomercadolibre.data.builder.CategoriesResponseBuilder
+import com.cristian.proyectomercadolibre.data.remote.models.HandlerResponse
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner.Silent::class)
-class CategoriesViewModelTest : TestCase() {
-
+@ExperimentalCoroutinesApi
+class CategoriesViewModelTest {
     @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
-
-    @Mock
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    private val testDispatcher = TestCoroutineDispatcher()
+    @MockK
     private lateinit var categoriesUseCase: CategoriesUseCase
-
-    @Mock
-    private lateinit var observer: Observer<List<Categories>>
-
     private lateinit var categoriesViewModel: CategoriesViewModel
 
-    private fun createCategories(): List<Categories> = mutableListOf(
-        Categories(
-            "1",
-            "fakeCategories1"
-        ),
-        Categories(
-            "2",
-            "fakeCategories2"
-        )
-    )
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
-
     @Before
-    fun setUpData() {
+    fun setUp() {
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(testDispatcher)
         categoriesViewModel = CategoriesViewModel(categoriesUseCase)
     }
 
     @Test
-    fun `testGetCategories`() = mainCoroutineRule.dispatcher.runBlockingTest {
-        categoriesViewModel.categories.observeForever(observer)
-        Mockito.`when`(categoriesUseCase.getCategories()).thenReturn(createCategories())
+    fun `when call getCategories get successful response 200`() = runBlockingTest {
+        // given
+        coEvery {
+            categoriesUseCase.getCategories()
+        } returns HandlerResponse.Success(listOf(CategoriesResponseBuilder().mapToDomain()))
+
+        // when
         categoriesViewModel.getCategories()
-        Mockito.verify(observer).onChanged(createCategories())
+
+        // then
+        Assert.assertNull(categoriesViewModel.errors.value)
+        Assert.assertFalse(categoriesViewModel.categories.getOrAwaitValue().isEmpty())
+    }
+
+    @Test
+    fun `when response is error with Exception`() = runBlockingTest {
+        // given
+        coEvery {
+            categoriesUseCase.getCategories()
+        } returns HandlerResponse.Failure(Exception("Error"))
+
+        // when
+        categoriesViewModel.getCategories()
+
+        // then
+        Assert.assertNull(categoriesViewModel.categories.value)
+        Assert.assertEquals("Error", categoriesViewModel.errors.getOrAwaitValue().message)
     }
 }

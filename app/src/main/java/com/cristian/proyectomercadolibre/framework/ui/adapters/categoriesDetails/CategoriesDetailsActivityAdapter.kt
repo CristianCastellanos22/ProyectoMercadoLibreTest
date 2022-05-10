@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cristian.proyectomercadolibre.R
 import com.cristian.proyectomercadolibre.databinding.ItemListCategoriesDetailsViewBinding
+import com.cristian.proyectomercadolibre.domain.models.Product
 import com.cristian.proyectomercadolibre.framework.ui.core.BaseViewHolder
-import com.cristian.proyectomercadolibre.models.Result
 import com.cristian.proyectomercadolibre.utils.FormatNumber
 
 class CategoriesDetailsActivityAdapter(
-    private val itemList: List<Result>,
+    private val itemList: List<Product>,
     private val onClickListenerCategoriesDetailsCardView: OnClickListenerCategoriesDetailsCardView
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
@@ -32,12 +32,12 @@ class CategoriesDetailsActivityAdapter(
     private inner class ResultActivityCategoriesDetailsViewHolder(
         val binding: ItemListCategoriesDetailsViewBinding,
         val context: Context
-    ) : BaseViewHolder<Result>(binding.root) {
-        override fun bind(item: Result) {
+    ) : BaseViewHolder<Product>(binding.root) {
+        override fun bind(item: Product) {
             Glide.with(context).load(item.thumbnail).error(R.drawable.ic_baseline_cloud_off_24)
                 .centerCrop().into(binding.imgViewCategoriesDetails)
             binding.txtNameProductCategoriesDetails.text = item.title
-            binding.txtSellCategoriesDetails.text = "Vendidos: " + item.sold_quantity
+            binding.txtSellCategoriesDetails.text = "Vendidos: " + item.soldQuantity
             binding.txtPriceCategoriesDetails.text = FormatNumber.formatNumber(item.price.toDouble())
             binding.cardItemsCategoriesDetails.setOnClickListener {
                 onClickListenerCategoriesDetailsCardView.onClick(item)
